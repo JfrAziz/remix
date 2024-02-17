@@ -1,5 +1,6 @@
+import { useEffect, useState } from "react";
+import { getAuthors } from "server/rpc/authors";
 import type { MetaFunction } from "@remix-run/node";
-import { useState } from "react";
 
 export const meta: MetaFunction = () => {
   return [
@@ -9,7 +10,17 @@ export const meta: MetaFunction = () => {
 };
 
 export default function Index() {
-  const [first, setfirst] = useState(0);
+  const [first, setfirst] = useState<number | string>(0);
+
+  useEffect(() => {
+    getAuthors("test-id")
+      .then((res) => res.json())
+      .then((r) => {
+        console.log(r);
+
+        setfirst(r);
+      });
+  }, []);
 
   return (
     <div style={{ fontFamily: "system-ui, sans-serif", lineHeight: "1.8" }}>

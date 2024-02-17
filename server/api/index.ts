@@ -1,10 +1,7 @@
-import { Hono } from 'hono'
-import books from './books'
-import authors from './authors'
+import { Hono } from "hono";
+import books from "./books";
+import authors from "./authors";
 
-const app = new Hono()
+const app = new Hono().route("/authors", authors).route("/books", books);
 
-app.route('/authors', authors)
-app.route('/books', books)
-
-export default app
+export default app;
