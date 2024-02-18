@@ -1,3 +1,4 @@
+import { ENV } from "config/env";
 import { remix } from "remix-hono/handler";
 import { session } from "remix-hono/session";
 import { Env, MiddlewareHandler } from "hono";
@@ -20,11 +21,6 @@ declare module "@remix-run/node" {
   }
 }
 
-const mode =
-  process.env.NODE_ENV === "test" ? "development" : process.env.NODE_ENV;
-
-const isProductionMode = mode === "production";
-
 /**
  * Load the dev server build and force reload it
  * @returns An up to date server build
@@ -34,7 +30,7 @@ export async function importDevBuild() {
    * This server is only used to load the dev server build
    */
   const viteDevServer =
-    process.env.NODE_ENV === "production"
+    ENV.NODE_ENV === "production"
       ? undefined
       : await import("vite").then((vite) =>
           vite.createServer({
@@ -49,21 +45,20 @@ export async function importDevBuild() {
 
 export function remixMiddleware() {
   return createMiddleware(async (c, next) => {
-    const build = (isProductionMode
+    const build = (ENV.NODE_ENV === "production"
       ? // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-expect-error
         // eslint-disable-next-line import/no-unresolved
         await import("../../build/server/remix.js")
       : await importDevBuild()) as unknown as ServerBuild;
 
-    
-
     const rmx = remix({
-      build,
-      mode,
+      build: build,
+      mode: ENV.NODE_ENV,
       getLoadContext() {
         return {
-          appVersion: isProductionMode ? build.assets.version : "dev",
+          appVersion:
+            ENV.NODE_ENV === "production" ? build.assets.version : "dev",
         } satisfies AppLoadContext;
       },
     });
