@@ -1,5 +1,5 @@
+import { getAuthors } from "~/rpc/authors";
 import { useEffect, useState } from "react";
-import { getAuthors } from "server/rpc/authors";
 import type { MetaFunction } from "@remix-run/node";
 
 export const meta: MetaFunction = () => {

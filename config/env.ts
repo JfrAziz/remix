@@ -3,7 +3,7 @@ import { Type, Static } from "@sinclair/typebox";
 
 const schema = Type.Object(
   {
-    // DATABASE_URL: Type.String({ minLength: 1 }),
+    DATABASE_URL: Type.String({ minLength: 1 }),
 
     DATABASE_DEBUG: Type.Boolean({ default: false }),
 
