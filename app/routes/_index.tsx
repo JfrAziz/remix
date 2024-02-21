@@ -1,56 +1,56 @@
-import { useState } from "react";
+import { getUser } from "service/user";
+import { Button } from "~/components/ui/button";
 import { useLoaderData } from "@remix-run/react";
 import {
   json,
-  type LoaderFunctionArgs,
   type MetaFunction,
+  type LoaderFunctionArgs,
 } from "@remix-run/node";
-import { getUser } from "service/user";
 
 export const meta: MetaFunction = () => {
   return [
-    { title: "New Remix App" },
-    { name: "description", content: "Welcome to Remix!" },
+    { title: "New Remix App with Hono backend and vite" },
+    {
+      name: "description",
+      content: "Welcome to New Remix App with Hono backend and vite",
+    },
   ];
 };
 
 export const loader = async ({ context }: LoaderFunctionArgs) => {
-  const user = context.user;
+  if (!context.user) return json({ user: null });
 
-  let userFull;
+  const user = await getUser(context.user.id);
 
-  if (user?.id) {
-    console.log(user.id);
-    userFull = await getUser(user.id);
-  }
+  if (user.error) return json({ user: null });
 
-  return json({ user: user, userFull: userFull?.value });
+  return json({ user: user.value });
 };
 
 export default function Index() {
   const data = useLoaderData<typeof loader>();
 
-  console.log(data);
-
-  const [first, setfirst] = useState<number | string>(0);
-
-  // useEffect(() => {
-  //   getAuthors("test-id")
-  //     .then((res) => res.json())
-  //     .then((r) => {
-  //       console.log(r);
-
-  //       setfirst(r);
-  //     });
-  // }, []);
-
   return (
-    <div style={{ fontFamily: "system-ui, sans-serif", lineHeight: "1.8" }}>
-      <h1 style={{ color: "blue" }}>HMR Check</h1>
-      <h3>{first}</h3>
-      <button onClick={() => setfirst(Math.random())}>check</button>
-      <div>{JSON.stringify(data)}</div>
-      <div>{JSON.stringify(data.userFull)}</div>
+    <div className="absolute w-full h-full flex items-center justify-center">
+      <div className="flex flex-col max-w-sm gap-4 justify-center">
+        <div className="font-mono text-xs">
+          <code className="whitespace-pre-line ">
+            {data.user ? JSON.stringify(data.user) : ""}
+          </code>
+        </div>
+        <div className="flex justify-center gap-2">
+          {!data.user && (
+            <Button asChild>
+              <a href="/api/auth/github">Login Github</a>
+            </Button>
+          )}
+          {data.user && (
+            <Button variant="destructive" asChild>
+              <a href="/api/auth/logout">Logout</a>
+            </Button>
+          )}
+        </div>
+      </div>
     </div>
   );
 }

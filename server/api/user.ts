@@ -6,14 +6,10 @@ const app = new Hono()
   .get("/", async (c) => {
     const payload = c.get("user");
 
-    console.log(payload);
-
     return c.json({ value: payload });
   })
   .get("/404", isAuthenticated(), (c) => {
     const payload = c.get("user");
-
-    console.log(payload);
 
     return c.json(payload);
   });

@@ -67,8 +67,6 @@ export const handleGithubAuth = async (
     location: githubUser.location,
   });
 
-  console.log(user.error)
-
   if (user.error) return Err("SERVICE_ERROR", user.error.message);
 
   /**
