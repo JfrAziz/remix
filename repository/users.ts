@@ -31,7 +31,7 @@ export const saveOrUpdateUser = async (
 
     return Ok(result[0]);
   } catch (error) {
-    return Err("DATABASE_ERROR");
+    return Err("DATABASE_ERROR", "failed to save user data");
   }
 };
 

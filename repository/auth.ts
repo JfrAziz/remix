@@ -27,7 +27,7 @@ export const updateAuthData = async (
 
     return Ok(result[0] as Auth);
   } catch (error) {
-    return Err("DATABASE_ERROR", "failed to save the data");
+    return Err("DATABASE_ERROR", "failed to save the authentication data");
   }
 };
 

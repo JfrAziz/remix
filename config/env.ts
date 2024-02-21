@@ -12,6 +12,8 @@ import {
   coerce,
 } from "valibot";
 
+let called = 0;
+
 const schema = object({
   SECRET: string("secret must exist", [toTrimmed()]),
 
@@ -40,15 +42,13 @@ const schema = object({
 export const parse = (env: object): Output<typeof schema> => {
   const value = safeParse(schema, env);
 
-  console.log(value)
+  console.log(called++);
 
   if (value.success) return value.output;
 
-  console.log(value.issues)
-  
+  console.log(value.issues);
+
   throw new Error(`[ENV] Parse:`);
 };
 
 export const ENV = parse(process.env);
-
-console.log(ENV)

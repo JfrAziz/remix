@@ -9,6 +9,7 @@ import {
   saveOrUpdateUser,
 } from "repository/users";
 
+
 interface GithubUser {
   id: number;
   login: string;
@@ -68,7 +69,7 @@ export const handleGithubAuth = async (
 
   console.log(user.error)
 
-  if (user.error) return Err("SERVICE_ERROR");
+  if (user.error) return Err("SERVICE_ERROR", user.error.message);
 
   /**
    * also create auth data for the user

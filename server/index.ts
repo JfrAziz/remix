@@ -4,8 +4,9 @@ import { ENV } from "config/env";
 import { logger } from "hono/logger";
 import { serve } from "@hono/node-server";
 import { cache } from "./middleware/cache";
+import { checkAuth } from "./middleware/auth";
+import { remixMiddleware } from "./middleware/remix";
 import { serveStatic } from "@hono/node-server/serve-static";
-import { remixMiddleware, remixSession } from "./middleware/remix";
 
 const app = new Hono();
 
@@ -16,6 +17,8 @@ app.use(
   cache(60 * 60 * 24 * 365), // 1 year
   serveStatic({ root: "./build/client" })
 );
+
+app.use(checkAuth());
 
 /**
  * do not cache for API routes
@@ -38,8 +41,6 @@ export type Api = typeof apiRoutes;
 /**
  * remix handler
  */
-app.use("*", remixSession());
-
 app.use("*", remixMiddleware());
 
 /**
