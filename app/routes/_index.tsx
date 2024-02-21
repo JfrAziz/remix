@@ -1,11 +1,14 @@
 import { getUser } from "service/user";
+import { useEffect, useState } from "react";
 import { Button } from "~/components/ui/button";
 import { useLoaderData } from "@remix-run/react";
+import { getUser as getUserRPPC } from "~/rpc/user";
 import {
   json,
   type MetaFunction,
   type LoaderFunctionArgs,
 } from "@remix-run/node";
+import { User } from "config/schema";
 
 export const meta: MetaFunction = () => {
   return [
@@ -30,12 +33,26 @@ export const loader = async ({ context }: LoaderFunctionArgs) => {
 export default function Index() {
   const data = useLoaderData<typeof loader>();
 
+  const [dataFromRPC, setDataFromRPC] =
+    useState<Omit<User, "created_at" | "updated_at">>();
+
+  useEffect(() => {
+    getUserRPPC().then((r) => setDataFromRPC(r));
+  }, []);
+
   return (
     <div className="absolute w-full h-full flex items-center justify-center">
       <div className="flex flex-col max-w-sm gap-4 justify-center">
-        <div className="font-mono text-xs">
-          <code className="whitespace-pre-line ">
+        <div className="text-xs flex flex-col gap-2">
+          <div>Data from loader</div>
+          <code className="font-mono  whitespace-pre-line ">
             {data.user ? JSON.stringify(data.user) : ""}
+          </code>
+        </div>
+        <div className="text-xs flex flex-col gap-2">
+          <div>Data from RPC</div>
+          <code className="font-mono  whitespace-pre-line ">
+            {dataFromRPC ? JSON.stringify(dataFromRPC) : ""}
           </code>
         </div>
         <div className="flex justify-center gap-2">

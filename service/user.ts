@@ -1,6 +1,6 @@
 import { User } from "config/schema";
-import { findUserById } from "repository/users";
 import { Err, Ok, Result } from "utils/result";
+import { findUserById } from "repository/users";
 
 export const getUser = async (id: string): Promise<Result<User, Err>> => {
   const result = await findUserById(id);
