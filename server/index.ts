@@ -14,7 +14,6 @@ app.use(logger());
 
 app.use(
   "/assets/*",
-  cache(60 * 60 * 24 * 365), // 1 year
   serveStatic({ root: "./build/client" })
 );
 
@@ -28,7 +27,7 @@ app.use("/api/*", cache(0));
 /**
  * Serve public files
  */
-app.use("*", cache(60 * 60), serveStatic({ root: "./build/client" })); // 1 hour
+app.use("*", serveStatic({ root: "./build/client" })); // 1 hour
 
 /**
  * mount all api routes and

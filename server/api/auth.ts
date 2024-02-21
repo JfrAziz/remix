@@ -4,10 +4,15 @@ import { handleGithubAuth } from "service/auth";
 import { HTTPException } from "hono/http-exception";
 import { handleResultError } from "server/utils/error";
 import { githubAuth } from "@hono/oauth-providers/github";
-import { isNotAuthenticated, setAuth } from "server/middleware/auth";
+import {
+  setAuth,
+  removeAuth,
+  isNotAuthenticated,
+} from "server/middleware/auth";
 
-const app = new Hono().use(isNotAuthenticated()).use(
+const app = new Hono().get("/logout", removeAuth()).use(
   "/github",
+  isNotAuthenticated(),
   githubAuth({
     scope: ["read:user"],
     client_id: ENV.GITHUB_CLIENT_ID,

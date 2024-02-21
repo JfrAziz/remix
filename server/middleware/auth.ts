@@ -1,11 +1,11 @@
 import { ENV } from "config/env";
+import { Jwt } from "hono/utils/jwt";
 import { User } from "config/schema";
-import { getCookie, setCookie } from "hono/cookie";
-import { createMiddleware } from "hono/factory";
-import { HTTPException } from "hono/http-exception";
-import { sign, verify } from "hono/jwt";
-import { handleResultError } from "server/utils/error";
 import { Err, Ok, Result } from "utils/result";
+import { createMiddleware } from "hono/factory";
+import { deleteCookie, getCookie, setCookie } from "hono/cookie";
+import { HTTPException } from "hono/http-exception";
+import { handleResultError } from "server/utils/error";
 
 declare module "hono" {
   interface ContextVariableMap {
@@ -31,7 +31,7 @@ const encodeToken = async (
   user: User
 ): Promise<Result<string, Err<"UNAUTHORIZED">>> => {
   try {
-    return Ok(await sign(createUserJWTPayload(user), ENV.SECRET));
+    return Ok(await Jwt.sign(createUserJWTPayload(user), ENV.SECRET));
   } catch (error) {
     return Err("UNAUTHORIZED");
   }
@@ -41,7 +41,7 @@ const decodeToken = async (
   token: string
 ): Promise<Result<UserPayload | null>> => {
   try {
-    return Ok(await verify(token, ENV.SECRET));
+    return Ok(await Jwt.verify(token, ENV.SECRET));
   } catch (error) {
     return Ok(null);
   }
@@ -62,6 +62,15 @@ export const setAuth = (user: User) =>
     setCookie(c, AUTH_COOKIE_KEY, token.value);
 
     return c.redirect("/");
+  });
+
+export const removeAuth = () =>
+  createMiddleware(async (c) => {
+    deleteCookie(c, AUTH_COOKIE_KEY);
+
+    c.set("user", null);
+
+    return c.redirect("/", 302);
   });
 
 /**
@@ -108,5 +117,5 @@ export const isNotAuthenticated = () =>
 
     if (!payload) return next();
 
-    return c.redirect("/");
+    return c.redirect("/", 302);
   });
