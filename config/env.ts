@@ -3,19 +3,19 @@ import { Type, Static } from "@sinclair/typebox";
 
 const schema = Type.Object(
   {
+    SECRET: Type.String({ minLength: 1 }),
+    
     DATABASE_URL: Type.String({ minLength: 1 }),
 
     DATABASE_DEBUG: Type.Boolean({ default: false }),
-
-    SESSION_SECRET: Type.String({ minLength: 1 }),
 
     // GOOGLE_CLIENT_ID: Type.String({ minLength: 1 }),
 
     // GOOGLE_SECRET_ID: Type.String({ minLength: 1 }),
 
-    // GITHUB_CLIENT_ID: Type.String({ minLength: 1 }),
+    GITHUB_CLIENT_ID: Type.String({ minLength: 1 }),
 
-    // GITHUB_SECRET_ID: Type.String({ minLength: 1 }),
+    GITHUB_CLIENT_SECRET: Type.String({ minLength: 1 }),
 
     HOST: Type.String({ minLength: 1, default: "127.0.0.1" }),
 

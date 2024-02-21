@@ -14,11 +14,12 @@
     "db:check": "drizzle-kit check:pg --config=config/db.ts",
     "db:generate": "drizzle-kit generate:pg --config=config/db.ts",
     "lint": "eslint --ignore-path .gitignore --cache --cache-location ./node_modules/.cache/eslint .",
-    "start": "SESSION_SECRET=s3cr3t node ./build/server/index.js",
+    "start": "node ./build/server/index.js",
     "typecheck": "tsc"
   },
   "dependencies": {
     "@hono/node-server": "^1.8.1",
+    "@hono/oauth-providers": "^0.3.1",
     "@hono/typebox-validator": "^0.2.2",
     "@hono/vite-dev-server": "^0.7.0",
     "@remix-run/node": "^2.7.1",
@@ -28,13 +29,15 @@
     "drizzle-orm": "^0.29.3",
     "drizzle-typebox": "^0.1.1",
     "esbuild": "^0.20.1",
+    "fast-jwt": "^4.0.0",
     "hono": "^4.0.5",
     "isbot": "^5.1.0",
     "npm-run-all": "^4.1.5",
     "postgres": "^3.4.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "remix-hono": "^0.0.15"
+    "remix-hono": "^0.0.15",
+    "ulid": "^2.3.0"
   },
   "devDependencies": {
     "@remix-run/dev": "^2.7.1",

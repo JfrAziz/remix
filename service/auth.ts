@@ -10,18 +10,16 @@ import {
 } from "repository/users";
 
 interface GithubUser {
-  login: string;
   id: number;
-  avatar_url: string;
+  login: string;
   type: string;
   name: string;
-  company: string;
-  blog: string;
-  location: string;
-  email: string;
-  hireable: boolean;
-  bio: string;
-  twitter_username: string;
+  avatar_url: string;
+  bio: string | null;
+  blog: string | null;
+  email: string | null;
+  company: string | null;
+  location: string | null;
 }
 
 /**
@@ -67,6 +65,8 @@ export const handleGithubAuth = async (
     company: githubUser.company,
     location: githubUser.location,
   });
+
+  console.log(user.error)
 
   if (user.error) return Err("SERVICE_ERROR");
 

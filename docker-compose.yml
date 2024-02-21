@@ -1,0 +1,54 @@
+version: "3"
+
+networks:
+  app:
+    name: ${APP_NAME:-app}
+
+volumes:
+  db:
+    name: ${APP_NAME:-app}-postgres
+
+services:
+  app:
+    build: .
+    container_name: ${APP_NAME:-app}
+    ports:
+      - "3000:3000"
+    networks:
+      - app
+    environment:
+      - PORT=3000
+      - HOST=0.0.0.0
+      - SECRET=${SECRET:-secret}
+      - GITHUB_CLIENT_ID=""
+      - GITHUB_CLIENT_SECRET=""
+      - DATABASE_URL=postgres://${DB_USERNAME:-postgres}:${DB_PASSWORD:-postgres}@${APP_NAME:-app}-postgres:5432/${DB_NAME:-postgres}?sslmode=disable
+
+  postgres:
+    image: postgres:alpine
+    container_name: ${APP_NAME:-app}-postgres
+    restart: always
+    ports:
+      - "5432:5432"
+    networks:
+      - app
+    environment:
+      - POSTGRES_DB=${DB_NAME:-postgres}
+      - POSTGRES_USER=${DB_USERNAME:-postgres}
+      - POSTGRES_PASSWORD=${DB_PASSWORD:-postgres}
+    volumes:
+      - db:/var/lib/postgresql/data
+
+  pgweb:
+    image: "sosedoff/pgweb"
+    container_name: ${APP_NAME:-app}-pgweb
+    ports:
+      - "8081:8081"
+    networks:
+      - app
+    depends_on:
+      - postgres
+    environment:
+      - PGWEB_SESSIONS=1
+      - PGWEB_LOCK_SESSION=TRUE
+      - PGWEB_DATABASE_URL=postgres://${DB_USERNAME:-postgres}:${DB_PASSWORD:-postgres}@${APP_NAME:-app}-postgres:5432/${DB_NAME:-postgres}?sslmode=disable&connect_timeout=20

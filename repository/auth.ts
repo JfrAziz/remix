@@ -23,8 +23,11 @@ export const updateAuthData = async (
       })
       .returning();
 
+    console.log(result);
+
     return Ok(result[0] as Auth);
   } catch (error) {
+    console.log(error)
     return Err("DATABASE_ERROR", "failed to save the data");
   }
 };

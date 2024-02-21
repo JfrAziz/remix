@@ -71,8 +71,7 @@ export function remixSession() {
   return session({
     autoCommit: true,
     createSessionStorage() {
-      if (!process.env.SESSION_SECRET)
-        throw new Error("SESSION_SECRET is not defined");
+      if (!ENV.SECRET) throw new Error("SESSION_SECRET is not defined");
 
       const sessionStorage = createCookieSessionStorage({
         cookie: {
@@ -80,7 +79,7 @@ export function remixSession() {
           httpOnly: true,
           path: "/",
           sameSite: "lax",
-          secrets: [process.env.SESSION_SECRET],
+          secrets: [ENV.SECRET],
           secure: process.env.NODE_ENV === "production",
         },
       });

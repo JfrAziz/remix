@@ -1,18 +1,28 @@
+import { createId } from "utils/uid";
 import { relations } from "drizzle-orm";
-import { boolean, pgTable, text, timestamp, uuid } from "drizzle-orm/pg-core";
+import {
+  text,
+  boolean,
+  pgTable,
+  varchar,
+  timestamp,
+} from "drizzle-orm/pg-core";
 
 /**
  * authentication table schema fro postgresql databases
  * with drizzle
  */
 export const auth = pgTable("auth", {
-  id: uuid("id").notNull().primaryKey(),
+  id: varchar("id", { length: 32 })
+    .notNull()
+    .primaryKey()
+    .$defaultFn(() => createId()),
 
   provider: text("provider").notNull(),
 
   provider_id: text("provider_id").notNull(),
 
-  user_id: uuid("user_id")
+  user_id: varchar("user_id", { length: 32 })
     .notNull()
     .references(() => users.id, { onDelete: "no action" }),
 
@@ -37,7 +47,7 @@ export const auth_relations = relations(auth, ({ one }) => ({
  * users table schema for postgresql database with drizzle
  */
 export const users = pgTable("users", {
-  id: uuid("id").notNull().primaryKey(),
+  id: varchar("id", { length: 32 }).unique().notNull().primaryKey(),
 
   user_name: text("user_name").notNull().unique(),
 
