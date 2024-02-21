@@ -1,9 +1,9 @@
 import * as table from "./table";
 import * as schema from "./schema";
-import { Static } from "@sinclair/typebox";
+import { Output } from "valibot";
 
-export type User = Static<typeof schema.user>;
+export type User = Output<typeof schema.user>;
 
-export type Auth = Static<typeof schema.auth>;
+export type Auth = Output<typeof schema.auth>;
 
 export { table, schema };

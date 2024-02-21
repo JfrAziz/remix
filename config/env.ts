@@ -1,43 +1,54 @@
-import { Value } from "@sinclair/typebox/value";
-import { Type, Static } from "@sinclair/typebox";
+import {
+  union,
+  string,
+  number,
+  object,
+  Output,
+  boolean,
+  literal,
+  optional,
+  toTrimmed,
+  safeParse,
+  coerce,
+} from "valibot";
 
-const schema = Type.Object(
-  {
-    SECRET: Type.String({ minLength: 1 }),
-    
-    DATABASE_URL: Type.String({ minLength: 1 }),
+const schema = object({
+  SECRET: string("secret must exist", [toTrimmed()]),
 
-    DATABASE_DEBUG: Type.Boolean({ default: false }),
+  DATABASE_URL: string(),
 
-    // GOOGLE_CLIENT_ID: Type.String({ minLength: 1 }),
+  DATABASE_DEBUG: coerce(optional(boolean(), false), Boolean),
 
-    // GOOGLE_SECRET_ID: Type.String({ minLength: 1 }),
+  // GOOGLE_CLIENT_ID: Type.String({ minLength: 1 }),
 
-    GITHUB_CLIENT_ID: Type.String({ minLength: 1 }),
+  // GOOGLE_SECRET_ID: Type.String({ minLength: 1 }),
 
-    GITHUB_CLIENT_SECRET: Type.String({ minLength: 1 }),
+  GITHUB_CLIENT_ID: string(),
 
-    HOST: Type.String({ minLength: 1, default: "127.0.0.1" }),
+  GITHUB_CLIENT_SECRET: string(),
 
-    PORT: Type.Number({ default: 5173 }),
+  HOST: optional(string(), "127.0.0.1"),
 
-    NODE_ENV: Type.Union(
-      [Type.Literal("production"), Type.Literal("development")],
-      { default: "production" }
-    ),
-  },
-  { additionalProperties: true }
-);
+  PORT: coerce(optional(number(), 5173), Number),
 
-export const parse = (env: object): Static<typeof schema> => {
-  const converted = Value.Default(schema, Value.Convert(schema, env));
+  NODE_ENV: optional(
+    union([literal("production"), literal("development")]),
+    "production"
+  ),
+});
 
-  if (Value.Check(schema, converted))
-    return Value.Cast({ ...schema, additionalProperties: false }, converted);
+export const parse = (env: object): Output<typeof schema> => {
+  const value = safeParse(schema, env);
 
-  const error = Value.Errors(schema, converted).First()!;
+  console.log(value)
 
-  throw new Error(`[ENV] Parse: ${error.path} ${error.message} ${error.value}`);
+  if (value.success) return value.output;
+
+  console.log(value.issues)
+  
+  throw new Error(`[ENV] Parse:`);
 };
 
 export const ENV = parse(process.env);
+
+console.log(ENV)
