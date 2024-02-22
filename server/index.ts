@@ -1,21 +1,20 @@
-import api from "./api";
 import { Hono } from "hono";
 import { ENV } from "config/env";
+import { auth } from "./api/auth";
+import { user } from "./api/user";
 import { logger } from "hono/logger";
 import { serve } from "@hono/node-server";
 import { cache } from "./middleware/cache";
 import { checkAuth } from "./middleware/auth";
 import { remixMiddleware } from "./middleware/remix";
+import { HTTPException } from "hono/http-exception";
 import { serveStatic } from "@hono/node-server/serve-static";
 
 const app = new Hono();
 
 app.use(logger());
 
-app.use(
-  "/assets/*",
-  serveStatic({ root: "./build/client" })
-);
+app.use("/assets/*", serveStatic({ root: "./build/client" }));
 
 app.use(checkAuth());
 
@@ -33,9 +32,15 @@ app.use("*", serveStatic({ root: "./build/client" })); // 1 hour
  * mount all api routes and
  * export type for hono client
  */
-const apiRoutes = app.route("/api", api);
+app
+  .route("/", auth)
+  .route("/", user)
+  .onError((err, c) => {
+    if (err instanceof HTTPException)
+      return c.json({ code: err.status, message: err.message }, err.status);
 
-export type Api = typeof apiRoutes;
+    return c.json({ code: 500, message: "something wrong" }, 500);
+  });
 
 /**
  * remix handler

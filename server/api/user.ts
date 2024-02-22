@@ -1,19 +1,31 @@
 import { Hono } from "hono";
 import { getUser } from "service/user";
+import { updateUserSchema } from "validator/user";
 import { HTTPException } from "hono/http-exception";
-import { isAuthenticated } from "server/middleware/auth";
+import { vValidator } from "@hono/valibot-validator";
 import { handleResultError } from "server/utils/error";
+import { isAuthenticated } from "server/middleware/auth";
 
-const app = new Hono().use(isAuthenticated()).get("/", async (c) => {
-  const payload = c.get("user");
+export type UserAPI = typeof user;
 
-  if (!payload) throw new HTTPException(401, { message: "unauthorized" });
+export const user = new Hono()
+  .basePath("/api/user")
+  .use(isAuthenticated())
+  .get("/", async (c) => {
+    const payload = c.get("user");
 
-  const user = await getUser(payload.id);
+    if (!payload) throw new HTTPException(401, { message: "unauthorized" });
 
-  if (user.error) return handleResultError(user.error);
+    const user = await getUser(payload.id);
 
-  return c.json(user.value);
-});
+    if (user.error) return handleResultError(user.error);
 
-export default app;
+    return c.json(user.value);
+  })
+  .post("/", vValidator("json", updateUserSchema), (c) => {
+    const user = c.get("user");
+
+    const result = c.req.valid("json");
+
+    return c.json({ ...user, ...result });
+  });

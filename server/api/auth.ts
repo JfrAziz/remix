@@ -10,25 +10,28 @@ import {
   isNotAuthenticated,
 } from "server/middleware/auth";
 
-const app = new Hono().get("/logout", removeAuth()).use(
-  "/github",
-  isNotAuthenticated(),
-  githubAuth({
-    scope: ["read:user"],
-    client_id: ENV.GITHUB_CLIENT_ID,
-    client_secret: ENV.GITHUB_CLIENT_SECRET,
-  }),
-  async (c, next) => {
-    const user = c.get("user-github");
+export type AuthAPI = typeof auth;
 
-    if (!user) throw new HTTPException(401, { message: "failed to login" });
+export const auth = new Hono()
+  .basePath("/api/auth")
+  .get("/logout", removeAuth())
+  .use(
+    "/github",
+    isNotAuthenticated(),
+    githubAuth({
+      scope: ["read:user"],
+      client_id: ENV.GITHUB_CLIENT_ID,
+      client_secret: ENV.GITHUB_CLIENT_SECRET,
+    }),
+    async (c, next) => {
+      const user = c.get("user-github");
 
-    const result = await handleGithubAuth(user as Required<typeof user>);
+      if (!user) throw new HTTPException(401, { message: "failed to login" });
 
-    if (result.error) return handleResultError(result.error);
+      const result = await handleGithubAuth(user as Required<typeof user>);
 
-    return setAuth(result.value)(c, next);
-  }
-);
+      if (result.error) return handleResultError(result.error);
 
-export default app;
+      return setAuth(result.value)(c, next);
+    }
+  );
