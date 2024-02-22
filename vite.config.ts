@@ -4,6 +4,11 @@ import { vitePlugin as remix } from "@remix-run/dev";
 import devServer, { defaultOptions } from "@hono/vite-dev-server";
 
 export default defineConfig({
+  server: {
+    hmr: {
+      port: 3555,
+    },
+  },
   plugins: [
     remix({
       serverBuildFile: "remix.js",

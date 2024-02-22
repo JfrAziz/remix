@@ -1,6 +1,7 @@
 import { user } from "config/schema/schema";
 import {
   Output,
+  email,
   merge,
   minLength,
   object,
@@ -14,8 +15,17 @@ import {
 export type UpdateUserSchema = Output<typeof updateUserSchema>;
 
 export const updateUserSchema = merge([
-  pick(user, ["full_name", "user_name", "bio", "job", "location", "company"]),
+  pick(user, [
+    "full_name",
+    "user_name",
+    "email",
+    "job",
+    "bio",
+    "company",
+    "location",
+  ]),
   object({
+    email: optional(string([email("email not valid")])),
     full_name: optional(
       string([toTrimmed(), minLength(2, "full name at least 2 characters")])
     ),

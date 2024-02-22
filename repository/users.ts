@@ -35,6 +35,29 @@ export const saveOrUpdateUser = async (
   }
 };
 
+export const savePartialUser = async (
+  id: string,
+  user: Partial<Omit<User, "id" | "email">>
+): Promise<Result<User>> => {
+  try {
+    const result = await db
+      .update(table.users)
+      .set(user)
+      .where(eq(table.users.id, id))
+      .returning({
+        id: table.users.id,
+        full_name: table.users.full_name,
+        user_name: table.users.user_name,
+        created_at: table.users.created_at,
+        updated_at: table.users.updated_at,
+      });
+
+    return Ok(result[0]);
+  } catch (error) {
+    return Err("DATABASE_ERROR", "failed to save user data");
+  }
+};
+
 /**
  * check username already taken or not
  */
@@ -50,7 +73,7 @@ export const checkUserName = async (
 };
 
 /**
- * find by user,
+ * find user by id
  */
 export const findUserById = async (
   id: string

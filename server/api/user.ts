@@ -1,6 +1,6 @@
 import { Hono } from "hono";
-import { getUser } from "service/user";
 import { updateUserSchema } from "validator/user";
+import { getUser, updateUser } from "service/user";
 import { HTTPException } from "hono/http-exception";
 import { vValidator } from "@hono/valibot-validator";
 import { handleResultError } from "server/utils/error";
@@ -22,10 +22,12 @@ export const user = new Hono()
 
     return c.json(user.value);
   })
-  .post("/", vValidator("json", updateUserSchema), (c) => {
+  .post("/", vValidator("json", updateUserSchema), async (c) => {
     const user = c.get("user");
 
-    const result = c.req.valid("json");
+    const updated = await updateUser(user!.id, c.req.valid("json"));
 
-    return c.json({ ...user, ...result });
+    if (updated.error) return handleResultError(updated.error);
+
+    return c.json(updated.value);
   });
