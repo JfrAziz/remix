@@ -8,8 +8,9 @@ const app = new Hono()
   .route("/user", user)
   .onError((err, c) => {
     if (err instanceof HTTPException)
-      return c.json({ code: err.status, message: err.message });
-    return c.json({ code: 500, message: "something does not feels right" });
+      return c.json({ code: err.status, message: err.message }, err.status);
+
+    return c.json({ code: 500, message: "something wrong" }, 500);
   });
 
 export default app;

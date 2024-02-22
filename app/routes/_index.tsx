@@ -1,3 +1,4 @@
+import { User } from "config/schema";
 import { getUser } from "service/user";
 import { useEffect, useState } from "react";
 import { Button } from "~/components/ui/button";
@@ -8,7 +9,6 @@ import {
   type MetaFunction,
   type LoaderFunctionArgs,
 } from "@remix-run/node";
-import { User } from "config/schema";
 
 export const meta: MetaFunction = () => {
   return [
@@ -50,7 +50,7 @@ export default function Index() {
           </code>
         </div>
         <div className="text-xs flex flex-col gap-2">
-          <div>Data from RPC</div>
+          <div>Data from HONO RPC</div>
           <code className="font-mono  whitespace-pre-line ">
             {dataFromRPC ? JSON.stringify(dataFromRPC) : ""}
           </code>
