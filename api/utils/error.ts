@@ -1,6 +1,6 @@
 import { Err } from "utils/result";
-import { HTTPException } from "hono/http-exception";
 import { StatusCode } from "hono/utils/http-status";
+import { HTTPException } from "hono/http-exception";
 
 const ERROR_MAP: Record<string, StatusCode> = {
   SERVICE_ERROR: 400,

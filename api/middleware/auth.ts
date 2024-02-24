@@ -1,11 +1,11 @@
+import { User } from "schema";
 import { ENV } from "config/env";
 import { Jwt } from "hono/utils/jwt";
-import { User } from "config/schema";
 import { Err, Ok, Result } from "utils/result";
 import { createMiddleware } from "hono/factory";
-import { deleteCookie, getCookie, setCookie } from "hono/cookie";
 import { HTTPException } from "hono/http-exception";
-import { handleResultError } from "server/utils/error";
+import { handleResultError } from "api/utils/error";
+import { deleteCookie, getCookie, setCookie } from "hono/cookie";
 
 declare module "hono" {
   interface ContextVariableMap {

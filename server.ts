@@ -5,7 +5,7 @@ esbuild
     // The final file name
     outfile: "build/server/index.js",
     // Our server entry point
-    entryPoints: ["server/index.ts"],
+    entryPoints: ["api/index.ts"],
     // Dependencies that should not be bundled
     // We import the remix build from "../build/server/remix.js", so no need to bundle it again
     external: ["./build/server/*"],

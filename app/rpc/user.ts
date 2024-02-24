@@ -1,6 +1,6 @@
 import { hc } from "hono/client";
-import { type UserAPI } from "server/api/user";
-import { type UpdateUserSchema } from "validator/user";
+import { type UserAPI } from "api/routes/user";
+import { type UpdateUserSchema } from "schema/validator/user";
 
 const client = hc<UserAPI>(import.meta.env.BASE_URL);
 

@@ -1,6 +1,6 @@
 import { ENV } from "./env";
 import postgres from "postgres";
-import { table } from "./schema";
+import * as table from "./tables";
 import type { Config } from "drizzle-kit";
 import { PostgresJsDatabase, drizzle } from "drizzle-orm/postgres-js";
 

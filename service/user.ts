@@ -1,6 +1,6 @@
-import { User } from "config/schema";
+import { User } from "schema";
 import { Err, Ok, Result } from "utils/result";
-import { UpdateUserSchema } from "validator/user";
+import { UpdateUserSchema } from "schema/validator/user";
 import { checkUserName, findUserById, savePartialUser } from "repository/users";
 
 export const getUser = async (id: string): Promise<Result<User, Err>> => {

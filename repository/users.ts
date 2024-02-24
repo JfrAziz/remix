@@ -1,6 +1,7 @@
+import { User } from "schema";
 import { db } from "config/db";
 import { eq } from "drizzle-orm";
-import { User, table } from "config/schema";
+import { users } from "config/tables";
 import { Err, Ok, Result } from "utils/result";
 import { DatabaseError, NotFoundError } from "utils/error";
 
@@ -14,19 +15,19 @@ export const saveOrUpdateUser = async (
     const saved = { ...user, updated_at: new Date() };
 
     const result = await db
-      .insert(table.users)
+      .insert(users)
       .values(saved)
       .onConflictDoUpdate({
         set: saved,
-        where: eq(table.users.id, user.id),
-        target: [table.users.id],
+        where: eq(users.id, user.id),
+        target: [users.id],
       })
       .returning({
-        id: table.users.id,
-        full_name: table.users.full_name,
-        user_name: table.users.user_name,
-        created_at: table.users.created_at,
-        updated_at: table.users.updated_at,
+        id: users.id,
+        full_name: users.full_name,
+        user_name: users.user_name,
+        created_at: users.created_at,
+        updated_at: users.updated_at,
       });
 
     return Ok(result[0]);
@@ -41,15 +42,15 @@ export const savePartialUser = async (
 ): Promise<Result<User>> => {
   try {
     const result = await db
-      .update(table.users)
+      .update(users)
       .set(user)
-      .where(eq(table.users.id, id))
+      .where(eq(users.id, id))
       .returning({
-        id: table.users.id,
-        full_name: table.users.full_name,
-        user_name: table.users.user_name,
-        created_at: table.users.created_at,
-        updated_at: table.users.updated_at,
+        id: users.id,
+        full_name: users.full_name,
+        user_name: users.user_name,
+        created_at: users.created_at,
+        updated_at: users.updated_at,
       });
 
     return Ok(result[0]);
@@ -66,7 +67,7 @@ export const checkUserName = async (
 ): Promise<Result<boolean>> => {
   const result = await db.query.users.findFirst({
     columns: { id: true },
-    where: eq(table.users.user_name, username),
+    where: eq(users.user_name, username),
   });
 
   return result ? Ok(true) : Ok(false);
@@ -79,7 +80,7 @@ export const findUserById = async (
   id: string
 ): Promise<Result<User, NotFoundError>> => {
   const result = await db.query.users.findFirst({
-    where: eq(table.users.id, id),
+    where: eq(users.id, id),
   });
 
   return result ? Ok(result as User) : Err("NOT_FOUND");

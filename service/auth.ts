@@ -1,4 +1,4 @@
-import { User } from "config/schema";
+import { User } from "schema";
 import { Err, Result } from "utils/result";
 import { ServiceError } from "utils/error";
 import { appendId, createId } from "utils/uid";

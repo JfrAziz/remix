@@ -1,13 +1,13 @@
 import { Hono } from "hono";
 import { ENV } from "config/env";
-import { auth } from "./api/auth";
-import { user } from "./api/user";
+import { auth } from "./routes/auth";
+import { user } from "./routes/user";
 import { logger } from "hono/logger";
 import { serve } from "@hono/node-server";
 import { cache } from "./middleware/cache";
 import { checkAuth } from "./middleware/auth";
-import { remixMiddleware } from "./middleware/remix";
 import { HTTPException } from "hono/http-exception";
+import { remixMiddleware } from "./middleware/remix";
 import { serveStatic } from "@hono/node-server/serve-static";
 
 const app = new Hono();

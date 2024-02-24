@@ -16,7 +16,7 @@ export default defineConfig({
     tsconfigPaths(),
     devServer({
       injectClientScript: false,
-      entry: "./server/index.ts", // The file path of your server.
+      entry: "./api/index.ts", // The file path of your server.
       exclude: [/^\/(app)\/.+/, ...defaultOptions.exclude],
     }),
   ],

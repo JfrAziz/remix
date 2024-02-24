@@ -1,10 +1,10 @@
 import { Hono } from "hono";
-import { updateUserSchema } from "validator/user";
+import { updateUserSchema } from "schema/validator/user";
 import { getUser, updateUser } from "service/user";
 import { HTTPException } from "hono/http-exception";
 import { vValidator } from "@hono/valibot-validator";
-import { handleResultError } from "server/utils/error";
-import { isAuthenticated } from "server/middleware/auth";
+import { handleResultError } from "api/utils/error";
+import { isAuthenticated } from "api/middleware/auth";
 
 export type UserAPI = typeof user;
 

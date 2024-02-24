@@ -1,6 +1,7 @@
+import { User } from "schema";
 import { toast } from "sonner";
-import { User } from "config/schema";
 import { getUser } from "service/user";
+import { removeEmpty } from "utils/utils";
 import { useEffect, useState } from "react";
 import { Label } from "~/components/ui/label";
 import { Input } from "~/components/ui/input";
@@ -10,13 +11,12 @@ import { Toaster } from "~/components/ui/sonner";
 import { useLoaderData } from "@remix-run/react";
 import { getUser as getUserRPPC, updateUser } from "~/rpc/user";
 import { valibotValidator } from "@tanstack/valibot-form-adapter";
-import { UpdateUserSchema, updateUserSchema } from "validator/user";
+import { UpdateUserSchema, updateUserSchema } from "schema/validator/user";
 import {
   json,
   type MetaFunction,
   type LoaderFunctionArgs,
 } from "@remix-run/node";
-import { removeEmpty } from "utils/utils";
 
 export const meta: MetaFunction = () => {
   return [
@@ -142,26 +142,6 @@ export default function Index() {
                         </Label>
                       </>
                     )}
-                  </form.Field>
-                  <form.Field
-                    name="bio"
-                    validators={{ onChange: updateUserSchema.entries.bio }}
-                  >
-                    {(field) => {
-                      return (
-                        <>
-                          <Input
-                            placeholder="Bio"
-                            onBlur={field.handleBlur}
-                            value={field.state.value as string}
-                            onChange={(e) => field.handleChange(e.target.value)}
-                          />
-                          <Label className="text-destructive">
-                            {field.state.meta.errors}
-                          </Label>
-                        </>
-                      );
-                    }}
                   </form.Field>
                   <form.Subscribe
                     selector={(state) => [state.canSubmit, state.isSubmitting]}

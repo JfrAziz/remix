@@ -29,7 +29,7 @@ const schema = object({
 
   HOST: optional(string(), "127.0.0.1"),
 
-  PORT: coerce(optional(number(), 5173), Number),
+  PORT: optional(number(), 5173),
 
   NODE_ENV: optional(
     union([literal("production"), literal("development")]),
@@ -42,9 +42,11 @@ export const parse = (env: object): Output<typeof schema> => {
 
   if (value.success) return value.output;
 
-  console.log(value.issues);
+  for (const issue of value.issues) {
+    console.log(`[ENV] error : ${issue.path?.[0].key} ${issue.message}`);
+  }
 
-  throw new Error(`[ENV] Parse:`);
+  throw new Error(`[ENV] Parsing error`);
 };
 
 export const ENV = parse(process.env);

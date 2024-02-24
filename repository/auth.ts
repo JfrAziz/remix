@@ -1,6 +1,7 @@
+import { Auth } from "schema";
 import { db } from "config/db";
+import { auth } from "config/tables";
 import { and, eq } from "drizzle-orm";
-import { Auth, table } from "config/schema";
 import { Err, Ok, Result } from "utils/result";
 import { DatabaseError, NotFoundError } from "utils/error";
 
@@ -11,14 +12,14 @@ import { DatabaseError, NotFoundError } from "utils/error";
  * @returns
  */
 export const updateAuthData = async (
-  auth: Auth
+  data: Auth
 ): Promise<Result<Auth, DatabaseError>> => {
   try {
     const result = await db
-      .insert(table.auth)
-      .values({ ...auth, updated_at: new Date() })
+      .insert(auth)
+      .values({ ...data, updated_at: new Date() })
       .onConflictDoUpdate({
-        target: [table.auth.id],
+        target: [auth.id],
         set: { updated_at: new Date() },
       })
       .returning();
@@ -41,10 +42,7 @@ export const findByProviderAndId = async (
   provider_id: string
 ): Promise<Result<Auth, NotFoundError>> => {
   const result = await db.query.auth.findFirst({
-    where: and(
-      eq(table.auth.provider, provider),
-      eq(table.auth.provider_id, provider_id)
-    ),
+    where: and(eq(auth.provider, provider), eq(auth.provider_id, provider_id)),
   });
 
   return result ? Ok(result as Auth) : Err("NOT_FOUND");
