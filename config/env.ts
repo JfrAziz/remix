@@ -4,12 +4,12 @@ import {
   number,
   object,
   Output,
+  coerce,
   boolean,
   literal,
   optional,
   toTrimmed,
   safeParse,
-  coerce,
 } from "valibot";
 
 const schema = object({
@@ -29,7 +29,7 @@ const schema = object({
 
   HOST: optional(string(), "127.0.0.1"),
 
-  PORT: optional(number(), 5173),
+  PORT: optional(coerce(number(), Number), 5173),
 
   NODE_ENV: optional(
     union([literal("production"), literal("development")]),
