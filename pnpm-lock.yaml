@@ -10,13 +10,13 @@ dependencies:
     version: 1.8.1
   '@hono/oauth-providers':
     specifier: ^0.3.1
-    version: 0.3.1(hono@4.0.5)
+    version: 0.3.1(hono@4.0.7)
   '@hono/valibot-validator':
     specifier: ^0.2.2
-    version: 0.2.2(hono@4.0.5)(valibot@0.29.0)
+    version: 0.2.2(hono@4.0.7)(valibot@0.29.0)
   '@hono/vite-dev-server':
     specifier: ^0.8.0
-    version: 0.8.0(hono@4.0.5)
+    version: 0.8.0(hono@4.0.7)
   '@radix-ui/react-label':
     specifier: ^2.0.2
     version: 2.0.2(@types/react-dom@18.2.19)(@types/react@18.2.58)(react-dom@18.2.0)(react@18.2.0)
@@ -51,14 +51,14 @@ dependencies:
     specifier: ^0.20.1
     version: 0.20.1
   hono:
-    specifier: ^4.0.5
-    version: 4.0.5
+    specifier: ^4.0.7
+    version: 4.0.7
   isbot:
     specifier: ^5.1.0
     version: 5.1.0
   lucide-react:
-    specifier: ^0.338.0
-    version: 0.338.0(react@18.2.0)
+    specifier: ^0.340.0
+    version: 0.340.0(react@18.2.0)
   postgres:
     specifier: ^3.4.3
     version: 3.4.3
@@ -1439,33 +1439,33 @@ packages:
     engines: {node: '>=18.14.1'}
     dev: false
 
-  /@hono/oauth-providers@0.3.1(hono@4.0.5):
+  /@hono/oauth-providers@0.3.1(hono@4.0.7):
     resolution: {integrity: sha512-1cLgFOlGwCFInwqBQ3RZWd6lg5TWn5adSL+lgawu7zOZEEZdEgyY3Dfemiv4U+vLu8ljz/bmoemztdTHnrlFQA==}
     engines: {node: '>=18.4.0'}
     peerDependencies:
       hono: '>=3.*'
     dependencies:
-      hono: 4.0.5
+      hono: 4.0.7
     dev: false
 
-  /@hono/valibot-validator@0.2.2(hono@4.0.5)(valibot@0.29.0):
+  /@hono/valibot-validator@0.2.2(hono@4.0.7)(valibot@0.29.0):
     resolution: {integrity: sha512-1IfIi4JDztOeL3ciVbDoN5uJS9nSRfJv2az8VIn/m7CcVca2uF48Hw7v5ZShO/ESTP2SxtT8ozMZkQE1hi+kiw==}
     peerDependencies:
       hono: '>=3.9.0'
       valibot: ^0.13.1
     dependencies:
-      hono: 4.0.5
+      hono: 4.0.7
       valibot: 0.29.0
     dev: false
 
-  /@hono/vite-dev-server@0.8.0(hono@4.0.5):
+  /@hono/vite-dev-server@0.8.0(hono@4.0.7):
     resolution: {integrity: sha512-U9owUREiv4H0Mx4DI9z4I6Oxy5o/Y7DyTXVt1lrn97uu+76cSzgOUNI8NqXLZeFVVXNL+edrPXQr1ee1kTmwIw==}
     engines: {node: '>=18.14.1'}
     peerDependencies:
       hono: '*'
     dependencies:
       '@hono/node-server': 1.8.1
-      hono: 4.0.5
+      hono: 4.0.7
       miniflare: 3.20240129.3
       minimatch: 9.0.3
     transitivePeerDependencies:
@@ -4480,8 +4480,8 @@ packages:
     engines: {node: '>=16.0.0'}
     dev: false
 
-  /hono@4.0.5:
-    resolution: {integrity: sha512-6LEGL1Pf3+dLjVA0NJxAB/3FJ6S3W5qxd/XOG7Wl9YOrpMRZT9lt83R4Ojs8dO6GbAUSutI7zTyjStnSn9sbEg==}
+  /hono@4.0.7:
+    resolution: {integrity: sha512-1fhi9MUzMIXWqPWA7OGPTpzjQupT78rf+U6N+2vxwy7U76jUX0dmkUtp572gR+dbGR1YugLYvyg/JrgPOSoutw==}
     engines: {node: '>=16.0.0'}
     dev: false
 
@@ -5111,8 +5111,8 @@ packages:
       es5-ext: 0.10.62
     dev: true
 
-  /lucide-react@0.338.0(react@18.2.0):
-    resolution: {integrity: sha512-Uq+vcn/gp6l01GpDH8SxY6eAvO6Ur2bSU39NxEEJt35OotnVCH5q26TZEVPtJf23gTAncXd3DJQqcezIm6HA7w==}
+  /lucide-react@0.340.0(react@18.2.0):
+    resolution: {integrity: sha512-mWzYhbyy2d+qKuKHh+GWElPwa+kIquTnKbmSLGWOuZy+bjfZCkYD8DQWVFlqI4mQwc4HNxcqcOvtQ7ZS2PwURg==}
     peerDependencies:
       react: ^16.5.1 || ^17.0.0 || ^18.0.0
     dependencies:
