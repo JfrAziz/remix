@@ -59,7 +59,11 @@ export const setAuth = (user: User) =>
 
     if (token.error) return handleResultError(token.error);
 
-    setCookie(c, AUTH_COOKIE_KEY, token.value);
+    setCookie(c, AUTH_COOKIE_KEY, token.value, {
+      secure: true,
+      httpOnly: true,
+      maxAge: 7 * 24 * 60,
+    });
 
     return c.redirect("/");
   });
