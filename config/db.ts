@@ -2,7 +2,7 @@ import { ENV } from "./env";
 import postgres from "postgres";
 import * as table from "./tables";
 import type { Config } from "drizzle-kit";
-import { PostgresJsDatabase, drizzle } from "drizzle-orm/postgres-js";
+import { type PostgresJsDatabase, drizzle } from "drizzle-orm/postgres-js";
 
 declare global {
   // eslint-disable-next-line no-var
@@ -36,7 +36,7 @@ if (ENV.NODE_ENV === "production") {
 const config = {
   driver: "pg",
   out: "./migrations",
-  schema: "./config/schema/table.ts",
+  schema: "./config/tables.ts",
   dbCredentials: { connectionString: ENV.DATABASE_URL },
 } satisfies Config;
 
