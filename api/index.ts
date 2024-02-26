@@ -4,7 +4,6 @@ import { auth } from "./routes/auth";
 import { user } from "./routes/user";
 import { logger } from "hono/logger";
 import { serve } from "@hono/node-server";
-import { cache } from "./middleware/cache";
 import { checkAuth } from "./middleware/auth";
 import { HTTPException } from "hono/http-exception";
 import { remixMiddleware } from "./middleware/remix";
@@ -16,17 +15,17 @@ app.use(logger());
 
 app.use("/assets/*", serveStatic({ root: "./build/client" }));
 
-app.use(checkAuth());
-
-/**
- * do not cache for API routes
- */
-app.use("/api/*", cache(0));
-
 /**
  * Serve public files
  */
 app.use("*", serveStatic({ root: "./build/client" })); // 1 hour
+
+/**
+ * always check current user from
+ * cookies, and pass it to hono
+ * context everywhere
+ */
+app.use(checkAuth());
 
 /**
  * mount all api routes and
@@ -48,7 +47,7 @@ app
 app.use("*", remixMiddleware());
 
 /**
- * Serve assets files from build/client/assets
+ * [PRODUCTION ONLY] Serve assets files from build/client/assets
  */
 if (ENV.NODE_ENV === "production") {
   serve({ ...app, port: ENV.PORT, hostname: ENV.HOST }, async (info) => {

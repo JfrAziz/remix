@@ -1,5 +1,10 @@
 import esbuild from "esbuild";
 
+/**
+ * if you want to see entry point
+ * of this project, go to `./api/index.ts`.
+ * this file just a builder for production
+ */
 esbuild
   .build({
     // The final file name

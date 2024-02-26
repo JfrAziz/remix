@@ -5,7 +5,9 @@ import { createMiddleware } from "hono/factory";
 import { ServerBuild, AppLoadContext } from "@remix-run/node";
 
 /**
- * Declare our loaders and actions context type
+ * we pass user as context in renix, so
+ * to get user data in loaders or in actions.
+ * just call context.user
  */
 declare module "@remix-run/node" {
   interface AppLoadContext {
@@ -47,6 +49,11 @@ export function remixMiddleware() {
     const rmx = remix({
       build: build,
       mode: ENV.NODE_ENV,
+      /**
+       * this we pass user data from hono context
+       * to remix context. `c.get("user")` has user vaklue
+       * becase we user checkAuth middleware.
+       */
       getLoadContext() {
         return {
           user: c.get("user"),

@@ -14,7 +14,10 @@
  * so to make it easier to check what error and what to do when some errors
  * happen, I created this simple utils. any function has result either error
  * or the value. when there is error there is no value and vice versa. and you
- * can check any error easier because you can get what error form any functions
+ * can check any error easier because you can get what error form any functions.
+ *
+ * you can find this pattern on neverthrow packages, but I think this is enough
+ * for me.
  */
 
 /**
