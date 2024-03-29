@@ -1,14 +1,10 @@
 import { Hono } from "hono";
 import { ENV } from "config/env";
-import { handleGithubAuth } from "service/auth";
+import { getGithubEmail, handleGithubAuth } from "service/auth";
 import { HTTPException } from "hono/http-exception";
 import { handleResultError } from "api/utils/error";
 import { githubAuth } from "@hono/oauth-providers/github";
-import {
-  setAuth,
-  removeAuth,
-  isNotAuthenticated,
-} from "api/middleware/auth";
+import { setAuth, removeAuth, isNotAuthenticated } from "api/middleware/auth";
 
 export type AuthAPI = typeof auth;
 
@@ -19,7 +15,11 @@ export const auth = new Hono()
     "/github",
     isNotAuthenticated(),
     githubAuth({
-      scope: ["read:user"],
+      /**
+       * we need users data and their's email
+       */
+      oauthApp: true,
+      scope: ["read:user", "user:email"],
       client_id: ENV.GITHUB_CLIENT_ID,
       client_secret: ENV.GITHUB_CLIENT_SECRET,
     }),
@@ -27,6 +27,9 @@ export const auth = new Hono()
       const user = c.get("user-github");
 
       if (!user) throw new HTTPException(401, { message: "failed to login" });
+
+      if (!user.email)
+        user.email = (await getGithubEmail(c.get("token")!.token)).value;
 
       const result = await handleGithubAuth(user as Required<typeof user>);
 
