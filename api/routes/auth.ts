@@ -1,9 +1,9 @@
 import { Hono } from "hono";
 import { ENV } from "config/env";
-import { getGithubEmail, handleGithubAuth } from "service/auth";
 import { HTTPException } from "hono/http-exception";
 import { handleResultError } from "api/utils/error";
 import { githubAuth } from "@hono/oauth-providers/github";
+import { getGithubEmail, handleGithubAuth } from "service/auth";
 import { setAuth, removeAuth, isNotAuthenticated } from "api/middleware/auth";
 
 export type AuthAPI = typeof auth;

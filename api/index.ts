@@ -4,10 +4,10 @@ import { auth } from "./routes/auth";
 import { user } from "./routes/user";
 import { logger } from "hono/logger";
 import { serve } from "@hono/node-server";
-import { checkAuth } from "./middleware/auth";
 import { HTTPException } from "hono/http-exception";
 import { remixMiddleware } from "./middleware/remix";
 import { serveStatic } from "@hono/node-server/serve-static";
+import { checkAuth, isAuthenticated } from "./middleware/auth";
 
 const app = new Hono();
 
@@ -40,6 +40,12 @@ app
 
     return c.json({ code: 500, message: "something wrong" }, 500);
   });
+
+/**
+ * instead check in every pages/layout, why not define
+ * here to validate authenticated user for these routes.
+ */
+app.use("/dashboard", isAuthenticated({ redirect: "/" }));
 
 /**
  * remix handler

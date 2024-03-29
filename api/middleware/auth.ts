@@ -86,11 +86,7 @@ export const checkAuth = () =>
   createMiddleware(async (c, next) => {
     const token = getCookie(c, AUTH_COOKIE_KEY);
 
-    if (token) {
-      const payload = await decodeToken(token);
-
-      c.set("user", payload.value);
-    }
+    if (token) c.set("user", (await decodeToken(token))?.value);
 
     return next();
   });
@@ -101,11 +97,15 @@ export const checkAuth = () =>
  *
  * @returns
  */
-export const isAuthenticated = () =>
+export const isAuthenticated = (config?: { redirect?: string }) =>
   createMiddleware(async (c, next) => {
     const payload = c.get("user");
 
-    if (!payload) throw new HTTPException(401, { message: "unauthorized" });
+    if (!payload) {
+      if (config?.redirect) return c.redirect(config.redirect);
+
+      throw new HTTPException(401, { message: "unauthorized" });
+    }
 
     return next();
   });
@@ -116,10 +116,6 @@ export const isAuthenticated = () =>
  * @returns
  */
 export const isNotAuthenticated = () =>
-  createMiddleware(async (c, next) => {
-    const payload = c.get("user");
-
-    if (!payload) return next();
-
-    return c.redirect("/", 302);
-  });
+  createMiddleware(async (c, next) =>
+    c.get("user") ? c.redirect("/", 302) : next()
+  );

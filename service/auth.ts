@@ -1,5 +1,5 @@
 import { User } from "schema";
-import { Err, Result } from "utils/result";
+import { Err, Ok, Result } from "utils/result";
 import { ServiceError } from "utils/error";
 import { appendId, createId } from "utils/uid";
 import { findByProviderAndId, updateAuthData } from "repository/auth";
@@ -8,7 +8,6 @@ import {
   checkUserName,
   saveOrUpdateUser,
 } from "repository/users";
-
 
 interface GithubUser {
   id: number;
@@ -22,6 +21,24 @@ interface GithubUser {
   company: string | null;
   location: string | null;
 }
+
+export const getGithubEmail = async (
+  token: string
+): Promise<Result<string | null, ServiceError>> => {
+  const emails = await fetch("https://api.github.com/user/emails", {
+    headers: { Authorization: `Bearer ${token}` },
+  }).then((r) => r.json() as unknown as { email: string; primary: boolean }[]);
+
+  if ("message" in emails)
+    return Err("SERVICE_ERROR", "failed to get user emails");
+
+  const email =
+    emails.find((e) => e.primary === true)?.email ||
+    emails.find((e) => !e.email.includes("@users.noreply.github.com"))?.email ||
+    null;
+
+  return Ok(email);
+};
 
 /**
  * save user from github provider

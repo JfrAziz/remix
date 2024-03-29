@@ -11,6 +11,7 @@ const ERROR_MAP: Record<string, StatusCode> = {
 };
 
 export const handleResultError = (err: Err) => {
+  console.log(err)
   const code = ERROR_MAP[err.code];
 
   if (code) throw new HTTPException(code, { message: err.message || "error" });
