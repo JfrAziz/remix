@@ -6,8 +6,8 @@ settings:
 
 dependencies:
   '@hono/node-server':
-    specifier: ^1.9.0
-    version: 1.9.0
+    specifier: ^1.9.1
+    version: 1.9.1
   '@hono/oauth-providers':
     specifier: ^0.3.2
     version: 0.3.2(hono@4.1.5)
@@ -1415,8 +1415,8 @@ packages:
     engines: {node: '>=14'}
     dev: false
 
-  /@hono/node-server@1.9.0:
-    resolution: {integrity: sha512-oJjk7WXBlENeHhWiMqSyxPIZ3Kmf5ZYxqdlcSIXyN8Rn50bNJsPl99G4POBS03Jxh56FdfRJ0SEnC8mAVIiavQ==}
+  /@hono/node-server@1.9.1:
+    resolution: {integrity: sha512-XBru0xbtRlTZJyAiFJLn7XDKbCVXBaRhVQAQhB9TwND2gwj8jf9SDWIj/7VxVtNAjURJf7Ofcz58DRA6DPYiWA==}
     engines: {node: '>=18.14.1'}
     dev: false
 
@@ -1445,7 +1445,7 @@ packages:
     peerDependencies:
       hono: '*'
     dependencies:
-      '@hono/node-server': 1.9.0
+      '@hono/node-server': 1.9.1
       hono: 4.1.5
       miniflare: 3.20240129.3
       minimatch: 9.0.3

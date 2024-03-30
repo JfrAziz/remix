@@ -4,4 +4,4 @@ node_modules
 /build
 .env
 
-coverage
+/coverage

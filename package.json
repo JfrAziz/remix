@@ -18,11 +18,11 @@
     "test:ui": "vitest --ui --coverage.enabled=true",
     "test:coverage": "vitest run --coverage",
     "lint:tsc": "tsc",
-    "lint:fix": "eslint . --fix",
+    "lint:fix": "eslint --ignore-path .gitignore --cache --cache-location ./node_modules/.cache/eslint . --fix",
     "lint:report": "eslint --ignore-path .gitignore --cache --cache-location ./node_modules/.cache/eslint ."
   },
   "dependencies": {
-    "@hono/node-server": "^1.9.0",
+    "@hono/node-server": "^1.9.1",
     "@hono/oauth-providers": "^0.3.2",
     "@hono/valibot-validator": "^0.2.2",
     "@hono/vite-dev-server": "^0.10.0",

@@ -26,7 +26,7 @@ module.exports = {
   overrides: [
     // React
     {
-      files: ["**/*.{js,jsx,ts,tsx}"],
+      files: ["./app/**/*.{js,jsx,ts,tsx}"],
       plugins: ["react", "jsx-a11y"],
       extends: [
         "plugin:react/recommended",
@@ -34,6 +34,9 @@ module.exports = {
         "plugin:react-hooks/recommended",
         "plugin:jsx-a11y/recommended",
       ],
+      rules: {
+        "react/prop-types": "off",
+      },
       settings: {
         react: {
           version: "detect",
@@ -74,7 +77,7 @@ module.exports = {
 
     // Node
     {
-      files: [".eslintrc.cjs", "server.js"],
+      files: [".eslintrc.cjs"],
       env: {
         node: true,
       },

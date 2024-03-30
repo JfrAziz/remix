@@ -48,7 +48,7 @@ export function remixMiddleware() {
 
     const rmx = remix({
       build: build,
-      mode: ENV.NODE_ENV,
+      mode: ENV.NODE_ENV as "production" | "development",
       /**
        * this we pass user data from hono context
        * to remix context. `c.get("user")` has user vaklue
