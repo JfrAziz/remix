@@ -67,5 +67,5 @@ export const Throw = (err: Err) => {
 /**
  * only throw when error happend
  */
-export const ThrowOnErrpr = <T>(res: Result<T>) =>
+export const ThrowOnError = <T>(res: Result<T>) =>
   res.error ? Throw(res.error) : res.value;

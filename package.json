@@ -4,18 +4,22 @@
   "sideEffects": false,
   "type": "module",
   "scripts": {
+    "dev": "vite",
+    "start": "node ./build/server/index.js",
     "build": "run-s build:*",
     "build:remix": "remix vite:build",
     "build:server": "tsx server.ts",
-    "dev": "vite",
     "db:drop": "drizzle-kit drop --config=config/db.ts",
     "db:push": "drizzle-kit push:pg --config=config/db.ts",
     "db:studio": "drizzle-kit studio --config=config/db.ts",
     "db:check": "drizzle-kit check:pg --config=config/db.ts",
     "db:generate": "drizzle-kit generate:pg --config=config/db.ts",
-    "lint": "eslint --ignore-path .gitignore --cache --cache-location ./node_modules/.cache/eslint .",
-    "start": "node ./build/server/index.js",
-    "typecheck": "tsc"
+    "test": "vitest --run",
+    "test:ui": "vitest --ui --coverage.enabled=true",
+    "test:coverage": "vitest run --coverage",
+    "lint:tsc": "tsc",
+    "lint:fix": "eslint . --fix",
+    "lint:report": "eslint --ignore-path .gitignore --cache --cache-location ./node_modules/.cache/eslint ."
   },
   "dependencies": {
     "@hono/node-server": "^1.9.0",
@@ -51,6 +55,8 @@
     "@types/react": "^18.2.73",
     "@types/react-dom": "^18.2.23",
     "@typescript-eslint/eslint-plugin": "^7.4.0",
+    "@vitest/coverage-istanbul": "^1.4.0",
+    "@vitest/ui": "^1.4.0",
     "autoprefixer": "^10.4.19",
     "drizzle-kit": "^0.20.14",
     "eslint": "^8.57.0",
@@ -65,7 +71,8 @@
     "tsx": "^4.7.1",
     "typescript": "^5.4.3",
     "vite": "^5.2.7",
-    "vite-tsconfig-paths": "^4.3.2"
+    "vite-tsconfig-paths": "^4.3.2",
+    "vitest": "^1.4.0"
   },
   "engines": {
     "node": ">=18.0.0"

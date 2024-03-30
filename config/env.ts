@@ -32,7 +32,7 @@ const schema = object({
   PORT: optional(coerce(number(), Number), 5173),
 
   NODE_ENV: optional(
-    union([literal("production"), literal("development")]),
+    union([literal("production"), literal("development"), literal("test")]),
     "production"
   ),
 });

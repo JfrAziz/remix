@@ -11,7 +11,7 @@ This is just demo project, pick what you need. This project includes:
 - [x] docker for deployment
 - [x] tailwind as starter styling
 - [x] validation (valibot)
-- [ ] test
+- [x] test
 - [ ] cloudflare / vercel support
 
 ## Let's start with WHY

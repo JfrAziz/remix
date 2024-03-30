@@ -13,6 +13,8 @@ type RemoveNull<T> = ExpandRecursively<{
  * @returns
  */
 export const removeEmpty = <T>(obj: T): RemoveNull<T> => {
+  if (Array.isArray(obj)) return obj as RemoveNull<T>;
+
   return Object.fromEntries(
     Object.entries(obj as object)
       .filter(([, v]) => v != null)

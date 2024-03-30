@@ -10,9 +10,7 @@ export default defineConfig({
     },
   },
   plugins: [
-    remix({
-      serverBuildFile: "remix.js",
-    }),
+    remix({ serverBuildFile: "remix.js" }),
     tsconfigPaths(),
     devServer({
       injectClientScript: false,
