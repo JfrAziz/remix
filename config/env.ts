@@ -10,7 +10,7 @@ import {
   optional,
   toTrimmed,
   safeParse,
-} from "valibot";
+} from "valibot"
 
 const schema = object({
   SECRET: string("secret must exist", [toTrimmed()]),
@@ -35,18 +35,19 @@ const schema = object({
     union([literal("production"), literal("development"), literal("test")]),
     "production"
   ),
-});
+})
 
 export const parse = (env: object): Output<typeof schema> => {
-  const value = safeParse(schema, env);
+  const value = safeParse(schema, env)
 
-  if (value.success) return value.output;
+  if (value.success) return value.output
 
   for (const issue of value.issues) {
-    console.log(`[ENV] error : ${issue.path?.[0].key} ${issue.message}`);
+    // biome-ignore lint/nursery/noConsole: show all env error
+    console.log(`[ENV] error : ${issue.path?.[0].key} ${issue.message}`)
   }
 
-  throw new Error(`[ENV] Parsing error`);
-};
+  throw new Error(`[ENV] Parsing error`)
+}
 
-export const ENV = parse(process.env);
+export const ENV = parse(process.env)

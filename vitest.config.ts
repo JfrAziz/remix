@@ -1,6 +1,6 @@
-import { defineConfig } from "vitest/config";
-import tsconfigPaths from "vite-tsconfig-paths";
-import { vitePlugin as remix } from "@remix-run/dev";
+import { defineConfig } from "vitest/config"
+import tsconfigPaths from "vite-tsconfig-paths"
+import { vitePlugin as remix } from "@remix-run/dev"
 
 export default defineConfig({
   server: {
@@ -17,4 +17,4 @@ export default defineConfig({
     },
   },
   plugins: [remix({ serverBuildFile: "remix.js" }), tsconfigPaths()],
-});
+})

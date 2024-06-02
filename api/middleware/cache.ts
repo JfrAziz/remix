@@ -1,4 +1,4 @@
-import { createMiddleware } from "hono/factory";
+import { createMiddleware } from "hono/factory"
 
 /**
  * Cache middleware
@@ -7,10 +7,10 @@ import { createMiddleware } from "hono/factory";
  */
 export function cache(seconds: number) {
   return createMiddleware(async (c, next) => {
-    await next();
+    await next()
 
-    if (!c.res.ok) return;
+    if (!c.res.ok) return
 
-    c.res.headers.set("cache-control", `public, max-age=${seconds}`);
-  });
+    c.res.headers.set("cache-control", `public, max-age=${seconds}`)
+  })
 }

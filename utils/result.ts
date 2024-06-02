@@ -24,24 +24,24 @@
  * error result, code and it's message
  */
 export type Err<T = string> = {
-  code: T;
-  message?: string;
-};
+  code: T
+  message?: string
+}
 
 export type ResultError<E = Err> = {
-  value?: undefined;
-  error: E;
-};
+  value?: undefined
+  error: E
+}
 
 export type ResultSuccess<T> = {
-  value: T;
-  error?: undefined;
-};
+  value: T
+  error?: undefined
+}
 
 /**
  * your result is success or error, pick one
  */
-export type Result<T, E = Err> = ResultSuccess<T> | ResultError<E>;
+export type Result<T, E = Err> = ResultSuccess<T> | ResultError<E>
 
 /**
  * this is helpers function to generate
@@ -50,22 +50,22 @@ export type Result<T, E = Err> = ResultSuccess<T> | ResultError<E>;
 export const Err = <E = string>(
   code: E,
   message?: string
-): ResultError<Err<E>> => ({ error: { code, message } });
+): ResultError<Err<E>> => ({ error: { code, message } })
 
 /**
  * create result ok result
  */
-export const Ok = <T>(value: T): ResultSuccess<T> => ({ value: value });
+export const Ok = <T>(value: T): ResultSuccess<T> => ({ value: value })
 
 /**
  * pass any Err object to raise an error
  */
 export const Throw = (err: Err) => {
-  throw new Error(err.code);
-};
+  throw new Error(err.code)
+}
 
 /**
  * only throw when error happend
  */
 export const ThrowOnError = <T>(res: Result<T>) =>
-  res.error ? Throw(res.error) : res.value;
+  res.error ? Throw(res.error) : res.value

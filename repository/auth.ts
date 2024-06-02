@@ -1,9 +1,9 @@
-import { Auth } from "schema";
-import { db } from "config/db";
-import { auth } from "config/tables";
-import { and, eq } from "drizzle-orm";
-import { Err, Ok, Result } from "utils/result";
-import { DatabaseError, NotFoundError } from "utils/error";
+import { Auth } from "schema"
+import { db } from "config/db"
+import { auth } from "config/tables"
+import { and, eq } from "drizzle-orm"
+import { Err, Ok, Result } from "utils/result"
+import { DatabaseError, NotFoundError } from "utils/error"
 
 /**
  * save auth settings
@@ -22,13 +22,13 @@ export const updateAuthData = async (
         target: [auth.id],
         set: { updated_at: new Date() },
       })
-      .returning();
+      .returning()
 
-    return Ok(result[0] as Auth);
-  } catch (error) {
-    return Err("DATABASE_ERROR", "failed to save the authentication data");
+    return Ok(result[0] as Auth)
+  } catch {
+    return Err("DATABASE_ERROR", "failed to save the authentication data")
   }
-};
+}
 
 /**
  * find auth data from specific provider for specific account
@@ -43,7 +43,7 @@ export const findByProviderAndId = async (
 ): Promise<Result<Auth, NotFoundError>> => {
   const result = await db.query.auth.findFirst({
     where: and(eq(auth.provider, provider), eq(auth.provider_id, provider_id)),
-  });
+  })
 
-  return result ? Ok(result as Auth) : Err("NOT_FOUND");
-};
+  return result ? Ok(result as Auth) : Err("NOT_FOUND")
+}

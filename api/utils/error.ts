@@ -1,6 +1,7 @@
-import { Err } from "utils/result";
-import { StatusCode } from "hono/utils/http-status";
-import { HTTPException } from "hono/http-exception";
+import { ENV } from "config/env"
+import { Err } from "utils/result"
+import { StatusCode } from "hono/utils/http-status"
+import { HTTPException } from "hono/http-exception"
 
 const ERROR_MAP: Record<string, StatusCode> = {
   SERVICE_ERROR: 400,
@@ -8,16 +9,18 @@ const ERROR_MAP: Record<string, StatusCode> = {
   UNAUTHORIZED: 401,
   FORBIDDEN: 403,
   NOT_FOUND: 404,
-};
+}
 
 export const handleResultError = (err: Err) => {
-  console.log(err)
-  const code = ERROR_MAP[err.code];
+  const code = ERROR_MAP[err.code]
 
-  if (code) throw new HTTPException(code, { message: err.message || "error" });
+  if (code) throw new HTTPException(code, { message: err.message || "error" })
 
   /**
    * fallback
    */
-  throw new HTTPException(400, { message: "unhandled error" });
-};
+  throw new HTTPException(400, {
+    message: "unhandled error",
+    ...(ENV.NODE_ENV === "production" && { cause: err }),
+  })
+}

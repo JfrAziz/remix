@@ -1,7 +1,7 @@
-import { defineConfig } from "vite";
-import tsconfigPaths from "vite-tsconfig-paths";
-import { vitePlugin as remix } from "@remix-run/dev";
-import devServer, { defaultOptions } from "@hono/vite-dev-server";
+import { defineConfig } from "vite"
+import tsconfigPaths from "vite-tsconfig-paths"
+import { vitePlugin as remix } from "@remix-run/dev"
+import devServer, { defaultOptions } from "@hono/vite-dev-server"
 
 export default defineConfig({
   server: {
@@ -18,4 +18,4 @@ export default defineConfig({
       exclude: [/^\/(app)\/.+/, ...defaultOptions.exclude],
     }),
   ],
-});
+})

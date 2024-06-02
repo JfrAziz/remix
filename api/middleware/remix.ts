@@ -1,8 +1,8 @@
-import { ENV } from "config/env";
-import { UserPayload } from "./auth";
-import { remix } from "remix-hono/handler";
-import { createMiddleware } from "hono/factory";
-import { ServerBuild, AppLoadContext } from "@remix-run/node";
+import { ENV } from "config/env"
+import { UserPayload } from "./auth"
+import { remix } from "remix-hono/handler"
+import { createMiddleware } from "hono/factory"
+import { ServerBuild, AppLoadContext } from "@remix-run/node"
 
 /**
  * we pass user as context in renix, so
@@ -11,7 +11,7 @@ import { ServerBuild, AppLoadContext } from "@remix-run/node";
  */
 declare module "@remix-run/node" {
   interface AppLoadContext {
-    readonly user?: UserPayload;
+    readonly user?: UserPayload
   }
 }
 
@@ -30,11 +30,11 @@ export async function importDevBuild() {
           vite.createServer({
             server: { middlewareMode: true },
           })
-        );
+        )
 
   return viteDevServer?.ssrLoadModule(
     "virtual:remix/server-build" + "?t=" + Date.now()
-  );
+  )
 }
 
 export function remixMiddleware() {
@@ -44,7 +44,7 @@ export function remixMiddleware() {
         // @ts-expect-error
         // eslint-disable-next-line import/no-unresolved
         await import("../../build/server/remix.js")
-      : await importDevBuild()) as unknown as ServerBuild;
+      : await importDevBuild()) as unknown as ServerBuild
 
     const rmx = remix({
       build: build,
@@ -57,10 +57,10 @@ export function remixMiddleware() {
       getLoadContext() {
         return {
           user: c.get("user"),
-        } satisfies AppLoadContext;
+        } satisfies AppLoadContext
       },
-    });
+    })
 
-    return rmx(c as unknown as Parameters<typeof rmx>[0], next);
-  });
+    return rmx(c as unknown as Parameters<typeof rmx>[0], next)
+  })
 }

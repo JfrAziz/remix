@@ -1,6 +1,6 @@
-import { ulid } from 'ulid'
+import { ulid } from "ulid"
 
-export const createId = () => ulid();
+export const createId = () => ulid()
 
 /**
  * append any string with random unique id.
@@ -9,7 +9,7 @@ export const createId = () => ulid();
  * @returns
  */
 export const appendId = (str: string) => {
-  const suffix = ulid().substring(0, 5);
+  const suffix = ulid().substring(0, 5)
 
-  return str + "-" + suffix;
-};
+  return str + "-" + suffix
+}

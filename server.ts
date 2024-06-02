@@ -1,4 +1,4 @@
-import esbuild from "esbuild";
+import esbuild from "esbuild"
 
 /**
  * if you want to see entry point
@@ -22,6 +22,7 @@ esbuild
     logLevel: "info",
   })
   .catch((error: unknown) => {
-    console.error(error);
-    process.exit(1);
-  });
+    // biome-ignore lint/nursery/noConsole: show build error
+    console.error(error)
+    process.exit(1)
+  })

@@ -1,12 +1,6 @@
-import { createId } from "utils/uid";
-import { relations } from "drizzle-orm";
-import {
-  text,
-  boolean,
-  pgTable,
-  varchar,
-  timestamp,
-} from "drizzle-orm/pg-core";
+import { createId } from "utils/uid"
+import { relations } from "drizzle-orm"
+import { text, boolean, pgTable, varchar, timestamp } from "drizzle-orm/pg-core"
 
 /**
  * authentication table schema fro postgresql databases
@@ -31,7 +25,7 @@ export const auth = pgTable("auth", {
   created_at: timestamp("created_at").defaultNow(),
 
   updated_at: timestamp("updated_at").defaultNow(),
-});
+})
 
 /**
  * relationship between auth and users, many to one
@@ -41,7 +35,7 @@ export const auth_relations = relations(auth, ({ one }) => ({
     fields: [auth.user_id],
     references: [users.id],
   }),
-}));
+}))
 
 /**
  * users table schema for postgresql database with drizzle
@@ -68,4 +62,4 @@ export const users = pgTable("users", {
   created_at: timestamp("created_at").defaultNow(),
 
   updated_at: timestamp("updated_at").defaultNow(),
-});
+})

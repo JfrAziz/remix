@@ -1,4 +1,4 @@
-import { MetaFunction } from "@remix-run/node";
+import { MetaFunction } from "@remix-run/node"
 
 export const meta: MetaFunction = () => {
   return [
@@ -7,15 +7,15 @@ export const meta: MetaFunction = () => {
       name: "description",
       content: "Dashboard",
     },
-  ];
-};
+  ]
+}
 
 export default function Dashboard() {
   return (
-    <div className="w-full h-full m-auto container flex ">
-      <div className="flex flex-col w-full justify-center  p-8 gap-8 mt-8">
+    <div className="container m-auto flex h-full w-full">
+      <div className="mt-8 flex w-full flex-col justify-center gap-8 p-8">
         <div className="flex justify-center gap-2">dashboard</div>
       </div>
     </div>
-  );
+  )
 }

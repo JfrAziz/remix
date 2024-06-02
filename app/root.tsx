@@ -1,16 +1,16 @@
-import tailwind from "~/styles/globals.css?url";
-import { LinksFunction } from "@remix-run/server-runtime";
+import tailwind from "~/styles/globals.css?url"
+import { LinksFunction } from "@remix-run/server-runtime"
 import {
   Links,
   Meta,
   Outlet,
   Scripts,
   ScrollRestoration,
-} from "@remix-run/react";
+} from "@remix-run/react"
 
 export const links: LinksFunction = () => [
   { rel: "stylesheet", href: tailwind },
-];
+]
 
 export default function App() {
   return (
@@ -27,5 +27,5 @@ export default function App() {
         <Scripts />
       </body>
     </html>
-  );
+  )
 }

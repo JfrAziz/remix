@@ -1,7 +1,7 @@
-import * as v from "valibot";
-import { User } from "schema";
+import * as v from "valibot"
+import type { User } from "schema"
 
-export type UpdateUserSchema = v.Output<typeof updateUserSchema>;
+export type UpdateUserSchema = v.Output<typeof updateUserSchema>
 
 export const updateUserSchema = v.object({
   email: v.optional(v.string([v.email("email not valid")])),
@@ -19,4 +19,4 @@ export const updateUserSchema = v.object({
   ),
 }) satisfies v.BaseSchema<
   Partial<Pick<User, "email" | "user_name" | "full_name">>
->;
+>
