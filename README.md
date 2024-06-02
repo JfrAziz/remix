@@ -10,7 +10,7 @@ This is just demo project, pick what you need. This project includes:
 - [x] hmr support
 - [x] docker for deployment
 - [x] tailwind as starter styling
-- [x] validation (valibot)
+- [x] validation (zod)
 - [x] test
 - [ ] cloudflare / vercel support
 

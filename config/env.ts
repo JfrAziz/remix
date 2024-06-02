@@ -1,53 +1,30 @@
-import {
-  union,
-  string,
-  number,
-  object,
-  Output,
-  coerce,
-  boolean,
-  literal,
-  optional,
-  toTrimmed,
-  safeParse,
-} from "valibot"
+import z from "zod"
 
-const schema = object({
-  SECRET: string("secret must exist", [toTrimmed()]),
+const schema = z.object({
+  HOST: z.coerce.string().default("127.0.0.1"),
 
-  DATABASE_URL: string(),
+  PORT: z.coerce.number().default(5173),
 
-  DATABASE_DEBUG: coerce(optional(boolean(), false), Boolean),
+  NODE_ENV: z.enum(["development", "production", "test"]).default("production"),
 
-  // GOOGLE_CLIENT_ID: Type.String({ minLength: 1 }),
+  SECRET: z.string().trim(),
 
-  // GOOGLE_SECRET_ID: Type.String({ minLength: 1 }),
+  DATABASE_URL: z.string(),
 
-  GITHUB_CLIENT_ID: string(),
+  DATABASE_DEBUG: z.coerce.boolean().default(false),
 
-  GITHUB_CLIENT_SECRET: string(),
+  GITHUB_CLIENT_ID: z.string(),
 
-  HOST: optional(string(), "127.0.0.1"),
-
-  PORT: optional(coerce(number(), Number), 5173),
-
-  NODE_ENV: optional(
-    union([literal("production"), literal("development"), literal("test")]),
-    "production"
-  ),
+  GITHUB_CLIENT_SECRET: z.string(),
 })
 
-export const parse = (env: object): Output<typeof schema> => {
-  const value = safeParse(schema, env)
+const parsed = schema.safeParse(process.env)
 
-  if (value.success) return value.output
+if (!parsed.success) {
+  // biome-ignore lint/nursery/noConsole: show all env error
+  console.log(parsed.error.issues)
 
-  for (const issue of value.issues) {
-    // biome-ignore lint/nursery/noConsole: show all env error
-    console.log(`[ENV] error : ${issue.path?.[0].key} ${issue.message}`)
-  }
-
-  throw new Error(`[ENV] Parsing error`)
+  throw new Error("There is an error with the environment variables")
 }
 
-export const ENV = parse(process.env)
+export const ENV = parsed.data

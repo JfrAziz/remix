@@ -34,8 +34,8 @@ if (ENV.NODE_ENV === "production") {
 }
 
 const config = {
-  dialect: "postgresql",
   out: "./migrations",
+  dialect: "postgresql",
   schema: "./config/tables.ts",
   dbCredentials: { url: ENV.DATABASE_URL },
 } satisfies Config

@@ -1,8 +1,8 @@
 import { Hono } from "hono"
+import { zValidator } from "@hono/zod-validator"
 import { getUser, updateUser } from "service/user"
 import { HTTPException } from "hono/http-exception"
 import { handleResultError } from "api/utils/error"
-import { vValidator } from "@hono/valibot-validator"
 import { isAuthenticated } from "api/middleware/auth"
 import { updateUserSchema } from "schema/validator/user"
 
@@ -33,7 +33,7 @@ export const user = new Hono()
 
     return c.json(user.value)
   })
-  .post("/", vValidator("json", updateUserSchema), async (c) => {
+  .post("/", zValidator("json", updateUserSchema), async (c) => {
     const user = c.get("user")
 
     const updated = await updateUser(user!.id, c.req.valid("json"))
